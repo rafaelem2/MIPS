@@ -1,0 +1,23 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity decoderOpcodeULA is
+  port   (
+	 opcode : in std_logic_vector(5 downto 0);
+	 saida : out std_logic_vector(2 downto 0)
+  );
+end entity;
+
+architecture arch_name of decoderOpcodeULA is
+  constant LW     : std_logic_vector(5 downto 0) := "100011";
+  constant SW     : std_logic_vector(5 downto 0) := "101011";
+  constant BEQ    : std_logic_vector(5 downto 0) := "000100";
+  
+begin
+	
+	saida <= "010" when (opcode = LW or opcode = SW) else 
+             "110" when (opcode = BEQ) else
+             "000";
+	
+end architecture;

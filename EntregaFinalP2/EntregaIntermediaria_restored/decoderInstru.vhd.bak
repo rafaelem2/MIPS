@@ -1,0 +1,48 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity decoderInstru is
+  port ( opcode : in std_logic_vector(5 downto 0);
+			selMuxPc : out std_logic;
+			selMuxReg : out std_logic;
+			habilitaReg : out std_logic;
+			selMuxULA : out std_logic;
+			tipoR : out std_logic;
+			selMuxULAMem : out std_logic;
+			sig_beq : out std_logic;
+			habLeituraMem : out std_logic;
+			habEscritaMem : out std_logic
+  );
+end entity;
+
+architecture comportamento of decoderInstru is
+  constant Tipo_R : std_logic_vector(5 downto 0) := "000000";
+  constant LW    : std_logic_vector(5 downto 0) := "100011";
+  constant SW    : std_logic_vector(5 downto 0) := "101011";
+  constant BEQ   : std_logic_vector(5 downto 0) := "000100";
+  constant JMP   : std_logic_vector(5 downto 0) := "000010";
+
+begin
+
+	selMuxPc <= '1' when (opcode = JMP) else '0';
+
+	selMuxReg <= '1' when (opcode = Tipo_R) else '0';
+
+	habilitaReg <= '0' when (opcode = SW or opcode = BEQ) else '1';
+
+	selMuxULA <= '1' when (opcode = LW or opcode = SW) else '0';
+
+	tipoR  <= '1' when (opcode = Tipo_R) else '0';
+	
+	selMuxULAMem <= '0' when (opcode = Tipo_R) else '1';
+
+	sig_beq <= '1' when (opcode = BEQ) else '0';
+
+	habLeituraMem <= '1' when (opcode = LW) else '0';
+
+	habEscritaMem <= '1' when (opcode = SW) else '0';
+	
+
+
+
+end architecture;
